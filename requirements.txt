@@ -1,20 +1,20 @@
 Flask
 requests
 python-dotenv
-requests==2.31.0
-Werkzeug==2.3.7
+requests==2.32.4
+Werkzeug==3.0.6
 # Flask et extensions
 Flask==2.3.3
 Flask-CORS==6.0.0
 Flask-Limiter==3.5.0
-Werkzeug==2.3.7
+Werkzeug==3.0.6
 
 # Environnement et configuration
 python-dotenv==1.0.0
 
 # Dépendances existantes pour script_jira.py
 # (ajoutez ici les dépendances de votre script_jira.py)
-requests==2.31.0
+requests==2.32.4
 # jira==3.4.1  # si vous utilisez la bibliothèque jira
 # autres dépendances selon votre script_jira.py
 
