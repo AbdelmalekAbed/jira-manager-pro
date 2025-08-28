@@ -1,0 +1,721 @@
+/* JiraManager.css - Styles pour Jira Manager Pro */
+
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.jira-manager {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+.jira-header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.jira-header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jira-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.jira-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.jira-header-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.jira-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.jira-status-indicator.disconnected {
+  background-color: #f59e0b;
+}
+
+.jira-status-indicator.error {
+  background-color: #ef4444;
+}
+
+.jira-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Button Styles */
+.jira-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.jira-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.jira-btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.jira-btn-primary:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.jira-btn-secondary {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.jira-btn-secondary:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.jira-btn-danger {
+  background-color: #dc2626;
+  color: white;
+}
+
+.jira-btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.jira-btn-icon {
+  padding: 0.5rem;
+}
+
+/* Container and Layout */
+.jira-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.jira-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.jira-card-header {
+  padding: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+}
+
+.jira-card-body {
+  padding: 1rem;
+}
+
+/* Alert Styles */
+.jira-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid;
+}
+
+.jira-alert-warning {
+  background-color: #fef3c7;
+  border-color: #fbbf24;
+  color: #92400e;
+}
+
+.jira-alert-error {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.jira-alert-dismissible {
+  position: relative;
+  padding-right: 3rem;
+}
+
+.jira-alert-dismiss {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.jira-alert-dismiss:hover {
+  opacity: 1;
+}
+
+/* Filter Section */
+.jira-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.jira-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.jira-form-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.jira-form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.jira-form-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+/* Grid Layout */
+.jira-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.jira-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .jira-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Status Badge */
+.jira-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.jira-status-todo {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.jira-status-progress {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.jira-status-done {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.jira-status-other {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+
+/* Column Styles */
+.jira-column {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.jira-column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.jira-column-count {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.jira-column-body {
+  padding: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* Ticket Card */
+.jira-ticket-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.jira-ticket-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.jira-ticket-card:last-child {
+  margin-bottom: 0;
+}
+
+.jira-ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.jira-ticket-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.jira-ticket-key {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.jira-ticket-assignee {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.jira-ticket-summary {
+  font-size: 0.875rem;
+  color: #1e293b;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jira-ticket-actions {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.jira-ticket-card:hover .jira-ticket-actions {
+  opacity: 1;
+}
+
+.jira-ticket-action {
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: color 0.2s;
+}
+
+.jira-ticket-action:hover {
+  color: #2563eb;
+}
+
+.jira-ticket-action.danger:hover {
+  color: #dc2626;
+}
+
+.jira-ticket-action.success:hover {
+  color: #059669;
+}
+
+/* Modal Styles */
+.jira-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.jira-modal {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 28rem;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.jira-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.jira-modal-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.jira-modal-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.jira-modal-close:hover {
+  color: #374151;
+}
+
+.jira-modal-body {
+  padding: 1rem;
+  max-height: calc(90vh - 5rem);
+  overflow-y: auto;
+}
+
+/* Form Styles */
+.jira-form-group {
+  margin-bottom: 1rem;
+}
+
+.jira-form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.jira-form-textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.jira-form-textarea:focus,
+.jira-form-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.jira-form-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.jira-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.jira-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Radio Button Styles */
+.jira-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.jira-radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.jira-radio-option:hover {
+  background-color: #f8fafc;
+}
+
+.jira-radio-option input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+}
+
+.jira-radio-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Loading Spinner */
+.jira-spinner {
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #2563eb;
+  border-radius: 50%;
+  animation: jira-spin 1s linear infinite;
+}
+
+.jira-spinner-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.jira-spinner-md {
+  width: 24px;
+  height: 24px;
+}
+
+.jira-spinner-lg {
+  width: 32px;
+  height: 32px;
+}
+
+@keyframes jira-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.jira-empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #64748b;
+}
+
+.jira-empty-state svg {
+  margin: 0 auto 1rem;
+  opacity: 0.5;
+}
+
+.jira-empty-state h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.jira-empty-state p {
+  margin-bottom: 1rem;
+}
+
+/* Column Empty State */
+.jira-column-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #64748b;
+}
+
+.jira-column-empty svg {
+  margin: 0 auto 0.5rem;
+  opacity: 0.5;
+}
+
+.jira-column-empty p {
+  font-size: 0.875rem;
+}
+
+/* Footer */
+.jira-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid #e2e8f0;
+  background: white;
+  text-align: center;
+  color: #64748b;
+}
+
+.jira-footer p {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.jira-footer .jira-status-text {
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+  font-weight: 500;
+}
+
+.jira-footer .jira-status-text.connected {
+  color: #059669;
+}
+
+.jira-footer .jira-status-text.disconnected {
+  color: #d97706;
+}
+
+.jira-footer .jira-status-text.error {
+  color: #dc2626;
+}
+
+/* Utilities */
+.jira-hidden {
+  display: none;
+}
+
+.jira-flex {
+  display: flex;
+}
+
+.jira-items-center {
+  align-items: center;
+}
+
+.jira-justify-center {
+  justify-content: center;
+}
+
+.jira-gap-2 {
+  gap: 0.5rem;
+}
+
+.jira-gap-3 {
+  gap: 0.75rem;
+}
+
+.jira-text-center {
+  text-align: center;
+}
+
+.jira-mb-4 {
+  margin-bottom: 1rem;
+}
+
+.jira-py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.jira-w-full {
+  width: 100%;
+}
+
+.jira-flex-1 {
+  flex: 1;
+}
+
+.jira-min-w-0 {
+  min-width: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .jira-header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .jira-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .jira-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .jira-modal {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .jira-ticket-actions {
+    position: static;
+    opacity: 1;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+}
