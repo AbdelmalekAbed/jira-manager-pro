@@ -76,24 +76,5 @@ Jira Manager Pro est une application web full-stack conçue pour simplifier et o
 
 ---
 
-## 💡 Perspectives et Améliorations Futures
 
-Le projet Jira Manager Pro, dans sa version actuelle, constitue une base solide et fonctionnelle. Pour continuer à le faire évoluer vers un outil de gestion de projet plus intelligent et proactif, plusieurs axes d'amélioration peuvent être envisagés, notamment en tirant parti des principes de la science des données.
-
-### 1. Fonctions d'Analyse et de Machine Learning
-
-Les données contenues dans Jira (historique des tickets, temps de résolution, etc.) sont une mine d'or pour les analyses.
-
-* **Prédiction de la Durée des Tickets :** Développer un modèle de machine learning capable d'**estimer la durée de résolution d'un nouveau ticket**. En se basant sur des variables comme le type, la priorité, la description ou l'assigné, cette fonction aiderait les chefs de projet à mieux planifier les délais.
-* **Identification des Goulots d'Étranglement :** Analyser le flux de travail pour **détecter automatiquement les points de blocage** dans le processus de développement. L'application pourrait alerter sur les tickets qui stagnent ou les utilisateurs qui sont surchargés.
-* **Système de Recommandation d'Assignés :** Mettre en place un algorithme qui **suggère l'assigné le plus pertinent** pour un nouveau ticket. La recommandation se baserait sur les compétences, la charge de travail actuelle et l'historique de réussite de l'équipe sur des tâches similaires.
-
-### 2. Améliorations Fonctionnelles et Techniques
-
-Au-delà de l'aspect analytique, l'application peut gagner en confort et en puissance pour l'utilisateur quotidien.
-
-* **Gestion des Pièces Jointes :** Permettre de visualiser, d'ajouter et de supprimer des pièces jointes directement depuis l'interface de l'application.
-* **Optimisation de la Performance :** Intégrer un système de **mise en cache côté backend** pour les données statiques (liste des utilisateurs, types de tickets), ce qui réduirait la charge sur l'API de Jira et accélérerait les temps de réponse.
-
-* **Fonctionnalités de Collaboration :** Ajouter la possibilité de consulter et d'ajouter des commentaires à un ticket, et de notifier d'autres utilisateurs via des mentions (`@utilisateur`).
 
