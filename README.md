@@ -96,4 +96,4 @@ Au-delà de l'aspect analytique, l'application peut gagner en confort et en puis
 * **Optimisation de la Performance :** Intégrer un système de **mise en cache côté backend** pour les données statiques (liste des utilisateurs, types de tickets), ce qui réduirait la charge sur l'API de Jira et accélérerait les temps de réponse.
 
 * **Fonctionnalités de Collaboration :** Ajouter la possibilité de consulter et d'ajouter des commentaires à un ticket, et de notifier d'autres utilisateurs via des mentions (`@utilisateur`).
-bb3446a647a557ce138194306608b1ca395a6a93
+
