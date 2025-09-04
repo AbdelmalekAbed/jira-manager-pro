@@ -6526,3 +6526,83 @@
 [2025-08-27 15:13:18,481] INFO in api: Récupération détails pour AGTJ-5
 [2025-08-27 15:13:18,920] INFO in api: ✅ Détails récupérés pour AGTJ-5, type: Tâche
 [2025-08-27 15:13:18,921] INFO in api: ✅ GET /api/tickets/AGTJ-5/details - 0.440s
+[2025-09-01 15:08:36,415] INFO in api: ✅ JiraManager initialisé avec succès
+[2025-09-01 15:08:45,475] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 15:08:45,476] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 15:08:46,324] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 15:08:46,324] INFO in api: ✅ GET /api/tickets - 0.849s
+[2025-09-01 15:08:46,326] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 15:08:46,326] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 15:08:47,077] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 15:08:47,077] INFO in api: ✅ GET /api/tickets - 0.751s
+[2025-09-01 15:22:39,960] INFO in api: 🚀 GET /api/tickets/AGTJ-29/details - IP: 127.0.0.1
+[2025-09-01 15:22:39,961] INFO in api: Récupération détails pour AGTJ-29
+[2025-09-01 15:22:40,791] INFO in api: ✅ Détails récupérés pour AGTJ-29, type: Tâche
+[2025-09-01 15:22:40,792] INFO in api: ✅ GET /api/tickets/AGTJ-29/details - 0.831s
+[2025-09-01 15:23:10,941] INFO in api: 🚀 GET /api/tickets/AGTJ-29/transitions - IP: 127.0.0.1
+[2025-09-01 15:23:10,941] INFO in api: Récupération transitions pour AGTJ-29
+[2025-09-01 15:23:11,524] INFO in api: ✅ GET /api/tickets/AGTJ-29/transitions - 0.583s
+[2025-09-01 17:29:54,046] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:54,046] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:54,920] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:54,920] INFO in api: ✅ GET /api/tickets - 0.874s
+[2025-09-01 17:29:54,921] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:54,922] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:55,539] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:55,539] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:55,627] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:55,627] INFO in api: ✅ GET /api/tickets - 0.706s
+[2025-09-01 17:29:56,184] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:56,184] INFO in api: ✅ GET /api/tickets - 0.645s
+[2025-09-01 17:29:56,186] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:56,187] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:57,074] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:57,074] INFO in api: ✅ GET /api/tickets - 0.887s
+[2025-09-01 17:29:59,438] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:59,439] INFO in api: Récupération tickets - search: '', assignee: '', type: 'Bug', status: '', priority: ''
+[2025-09-01 17:30:00,298] INFO in api: Tickets filtrés: 2 tickets dans 1 statuts
+[2025-09-01 17:30:00,298] INFO in api: ✅ GET /api/tickets - 0.861s
+[2025-09-01 17:30:00,300] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:00,300] INFO in api: Récupération tickets - search: '', assignee: '', type: 'Bug', status: '', priority: ''
+[2025-09-01 17:30:00,915] INFO in api: Tickets filtrés: 2 tickets dans 1 statuts
+[2025-09-01 17:30:00,915] INFO in api: ✅ GET /api/tickets - 0.615s
+[2025-09-01 17:30:02,379] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:02,379] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,007] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:03,007] INFO in api: ✅ GET /api/tickets - 0.628s
+[2025-09-01 17:30:03,009] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,009] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,612] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:03,612] INFO in api: ✅ GET /api/tickets - 0.603s
+[2025-09-01 17:30:03,614] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,614] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,614] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,615] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:04,266] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:04,267] INFO in api: ✅ GET /api/tickets - 0.652s
+[2025-09-01 17:30:04,274] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:04,274] INFO in api: ✅ GET /api/tickets - 0.661s
+[2025-09-01 17:30:04,787] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:04,787] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:05,367] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:05,367] INFO in api: ✅ GET /api/tickets - 0.580s
+[2025-09-01 17:30:05,369] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:05,369] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:06,025] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:06,025] INFO in api: ✅ GET /api/tickets - 0.656s
+[2025-09-01 17:30:07,001] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:07,001] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:07,671] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:07,672] INFO in api: ✅ GET /api/tickets - 0.671s
+[2025-09-01 17:30:07,675] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:07,675] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:08,285] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:08,285] INFO in api: ✅ GET /api/tickets - 0.610s
+[2025-09-01 17:30:08,625] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:08,625] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:09,288] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:09,289] INFO in api: ✅ GET /api/tickets - 0.664s
+[2025-09-01 17:30:09,290] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:09,290] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:09,866] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:09,866] INFO in api: ✅ GET /api/tickets - 0.576s

@@ -16262,3 +16262,590 @@
 [2025-08-27 15:13:18,920] INFO in api: ✅ Détails récupérés pour AGTJ-5, type: Tâche
 [2025-08-27 15:13:18,921] INFO in api: ✅ GET /api/tickets/AGTJ-5/details - 0.440s
 [2025-08-27 15:13:18,921] INFO in _internal: 127.0.0.1 - - [27/Aug/2025 15:13:18] "GET /api/tickets/AGTJ-5/details HTTP/1.1" 200 -
+[2025-09-01 15:01:58,623] ERROR in script_jira: HTTP error for myself: 401 Client Error: Unauthorized for url: https://abdelmalekabed321.atlassian.net/rest/api/3/myself - Response: No response
+[2025-09-01 15:01:58,625] ERROR in script_jira: ❌ Failed to connect to Jira. Please check your credentials.
+[2025-09-01 15:02:30,892] ERROR in script_jira: HTTP error for myself: 401 Client Error: Unauthorized for url: https://abdelmalekabed321.atlassian.net/rest/api/3/myself - Response: No response
+[2025-09-01 15:02:30,893] ERROR in script_jira: ❌ Failed to connect to Jira. Please check your credentials.
+[2025-09-01 15:02:32,399] ERROR in script_jira: HTTP error for myself: 401 Client Error: Unauthorized for url: https://abdelmalekabed321.atlassian.net/rest/api/3/myself - Response: No response
+[2025-09-01 15:02:32,399] ERROR in script_jira: ❌ Failed to connect to Jira. Please check your credentials.
+[2025-09-01 15:02:38,071] ERROR in script_jira: HTTP error for myself: 401 Client Error: Unauthorized for url: https://abdelmalekabed321.atlassian.net/rest/api/3/myself - Response: No response
+[2025-09-01 15:02:38,071] ERROR in script_jira: ❌ Failed to connect to Jira. Please check your credentials.
+[2025-09-01 15:03:16,927] ERROR in script_jira: HTTP error for myself: 401 Client Error: Unauthorized for url: https://abdelmalekabed321.atlassian.net/rest/api/3/myself - Response: No response
+[2025-09-01 15:03:16,928] ERROR in script_jira: ❌ Failed to connect to Jira. Please check your credentials.
+[2025-09-01 15:08:36,414] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 15:08:36,415] INFO in api: ✅ JiraManager initialisé avec succès
+[2025-09-01 15:08:36,421] INFO in _internal: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.188:5000
+[2025-09-01 15:08:36,421] INFO in _internal: [33mPress CTRL+C to quit[0m
+[2025-09-01 15:08:45,469] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:45] "OPTIONS /api/health HTTP/1.1" 200 -
+[2025-09-01 15:08:45,471] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:45] "OPTIONS /api/tickets HTTP/1.1" 200 -
+[2025-09-01 15:08:45,475] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 15:08:45,476] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 15:08:45,476] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 15:08:45,829] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 15:08:45,831] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:45] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 15:08:46,188] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 15:08:46,189] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:46] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 15:08:46,322] INFO in script_jira: Successful request to search: 200
+[2025-09-01 15:08:46,322] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 15:08:46,322] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:46,322] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 15:08:46,322] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:46,322] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:46,322] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 15:08:46,322] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:46,323] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:46,324] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 15:08:46,324] INFO in api: ✅ GET /api/tickets - 0.849s
+[2025-09-01 15:08:46,324] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:46] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 15:08:46,326] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 15:08:46,326] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 15:08:46,326] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 15:08:47,075] INFO in script_jira: Successful request to search: 200
+[2025-09-01 15:08:47,076] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:47,076] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 15:08:47,076] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 15:08:47,077] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 15:08:47,077] INFO in api: ✅ GET /api/tickets - 0.751s
+[2025-09-01 15:08:47,077] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:08:47] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 15:22:39,959] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:22:39] "OPTIONS /api/tickets/AGTJ-29/details HTTP/1.1" 200 -
+[2025-09-01 15:22:39,960] INFO in api: 🚀 GET /api/tickets/AGTJ-29/details - IP: 127.0.0.1
+[2025-09-01 15:22:39,961] INFO in api: Récupération détails pour AGTJ-29
+[2025-09-01 15:22:40,791] INFO in script_jira: Successful request to issue/AGTJ-29: 200
+[2025-09-01 15:22:40,791] INFO in api: ✅ Détails récupérés pour AGTJ-29, type: Tâche
+[2025-09-01 15:22:40,792] INFO in api: ✅ GET /api/tickets/AGTJ-29/details - 0.831s
+[2025-09-01 15:22:40,792] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:22:40] "GET /api/tickets/AGTJ-29/details HTTP/1.1" 200 -
+[2025-09-01 15:23:10,939] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:23:10] "OPTIONS /api/tickets/AGTJ-29/transitions HTTP/1.1" 200 -
+[2025-09-01 15:23:10,941] INFO in api: 🚀 GET /api/tickets/AGTJ-29/transitions - IP: 127.0.0.1
+[2025-09-01 15:23:10,941] INFO in api: Récupération transitions pour AGTJ-29
+[2025-09-01 15:23:11,524] INFO in script_jira: Successful request to issue/AGTJ-29/transitions: 200
+[2025-09-01 15:23:11,524] INFO in script_jira: ✅ Available transitions for AGTJ-29: A faire, En cours, Terminé
+[2025-09-01 15:23:11,524] INFO in api: ✅ GET /api/tickets/AGTJ-29/transitions - 0.583s
+[2025-09-01 15:23:11,525] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 15:23:11] "GET /api/tickets/AGTJ-29/transitions HTTP/1.1" 200 -
+[2025-09-01 17:29:54,040] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:54] "OPTIONS /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:54,041] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:54] "OPTIONS /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:54,046] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:54,046] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:54,046] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:29:54,561] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:29:54,562] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:54] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:54,917] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:29:54,918] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:54] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:54,918] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:29:54,919] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:54,919] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:54,919] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:54,920] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:54,920] INFO in api: ✅ GET /api/tickets - 0.874s
+[2025-09-01 17:29:54,920] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:54] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:54,921] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:54,922] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:54,922] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:29:55,538] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:55] "OPTIONS /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:55,539] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:55,539] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:55,539] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:29:55,625] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:29:55,626] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:55,626] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:55,626] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:55,627] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:55,627] INFO in api: ✅ GET /api/tickets - 0.706s
+[2025-09-01 17:29:55,627] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:55] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:55,865] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:29:55,866] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:55] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:56,182] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:29:56,182] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:29:56,182] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:56,183] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:56,183] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:56,184] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:56,184] INFO in api: ✅ GET /api/tickets - 0.645s
+[2025-09-01 17:29:56,185] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:56] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:56,186] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:56,187] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:29:56,187] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:29:56,332] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:29:56,333] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:56] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:57,072] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:29:57,073] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:57,073] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:29:57,073] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:29:57,074] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:29:57,074] INFO in api: ✅ GET /api/tickets - 0.887s
+[2025-09-01 17:29:57,074] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:57] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:29:59,436] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:59] "OPTIONS /api/tickets?type=Bug HTTP/1.1" 200 -
+[2025-09-01 17:29:59,439] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:59] "OPTIONS /api/health HTTP/1.1" 200 -
+[2025-09-01 17:29:59,438] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:29:59,439] INFO in api: Récupération tickets - search: '', assignee: '', type: 'Bug', status: '', priority: ''
+[2025-09-01 17:29:59,439] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:29:59,910] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:29:59,911] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:29:59] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:00,297] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:00,297] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,297] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,297] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,298] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,298] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,298] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,298] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,298] INFO in api: Tickets filtrés: 2 tickets dans 1 statuts
+[2025-09-01 17:30:00,298] INFO in api: ✅ GET /api/tickets - 0.861s
+[2025-09-01 17:30:00,298] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:00] "GET /api/tickets?type=Bug HTTP/1.1" 200 -
+[2025-09-01 17:30:00,300] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:00,300] INFO in api: Récupération tickets - search: '', assignee: '', type: 'Bug', status: '', priority: ''
+[2025-09-01 17:30:00,300] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:00,914] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:00,914] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,914] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:00,914] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:00,915] INFO in api: Tickets filtrés: 2 tickets dans 1 statuts
+[2025-09-01 17:30:00,915] INFO in api: ✅ GET /api/tickets - 0.615s
+[2025-09-01 17:30:00,915] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:00] "GET /api/tickets?type=Bug HTTP/1.1" 200 -
+[2025-09-01 17:30:02,377] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:02] "OPTIONS /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:02,379] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:02,379] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:02,379] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:02,702] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:30:02,703] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:02] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:03,006] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:03,006] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,006] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,006] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,007] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:03,007] INFO in api: ✅ GET /api/tickets - 0.628s
+[2025-09-01 17:30:03,007] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:03] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:03,009] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,009] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,009] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:03,611] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:03,611] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,611] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:03,611] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:03,612] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:03,612] INFO in api: ✅ GET /api/tickets - 0.603s
+[2025-09-01 17:30:03,612] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:03] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:03,614] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,614] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:03,614] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,615] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:03,615] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:03,615] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:03,909] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:30:03,910] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:03] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:04,265] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:04,266] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,266] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,266] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,266] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:04,267] INFO in api: ✅ GET /api/tickets - 0.652s
+[2025-09-01 17:30:04,267] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:04] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:04,272] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:04,272] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,272] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,272] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:04,272] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:04,273] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:04,274] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:04,274] INFO in api: ✅ GET /api/tickets - 0.661s
+[2025-09-01 17:30:04,274] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:04] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:04,787] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:04,787] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:04,787] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:04,796] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:04] "OPTIONS /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:05,085] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:30:05,086] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:05] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:05,365] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:05,366] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:05,366] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:05,366] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:05,367] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:05,367] INFO in api: ✅ GET /api/tickets - 0.580s
+[2025-09-01 17:30:05,367] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:05] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:05,369] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:05,369] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:05,369] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:06,023] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:06,024] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:06,024] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:06,024] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:06,025] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:06,025] INFO in api: ✅ GET /api/tickets - 0.656s
+[2025-09-01 17:30:06,025] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:06] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:07,001] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:07,001] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:07,001] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:07,375] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:30:07,377] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:07] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:07,669] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:07,670] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:07,670] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:07,670] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:07,671] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:07,672] INFO in api: ✅ GET /api/tickets - 0.671s
+[2025-09-01 17:30:07,672] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:07] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:07,674] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:07] "OPTIONS /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:07,675] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:07,675] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:07,675] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:08,284] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:08,284] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:08,284] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:08,284] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:08,285] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:08,285] INFO in api: ✅ GET /api/tickets - 0.610s
+[2025-09-01 17:30:08,286] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:08] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:08,625] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:08,625] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:08,625] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:08,965] INFO in script_jira: Successful request to myself: 200
+[2025-09-01 17:30:08,966] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:08] "GET /api/health HTTP/1.1" 200 -
+[2025-09-01 17:30:09,287] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:09,288] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,288] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,288] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,288] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:09,289] INFO in api: ✅ GET /api/tickets - 0.664s
+[2025-09-01 17:30:09,289] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:09] "GET /api/tickets HTTP/1.1" 200 -
+[2025-09-01 17:30:09,290] INFO in api: 🚀 GET /api/tickets - IP: 127.0.0.1
+[2025-09-01 17:30:09,290] INFO in api: Récupération tickets - search: '', assignee: '', type: '', status: '', priority: ''
+[2025-09-01 17:30:09,290] INFO in script_jira: 
+🔍 Retrieving tickets...
+[2025-09-01 17:30:09,864] INFO in script_jira: Successful request to search: 200
+[2025-09-01 17:30:09,865] INFO in script_jira: 
+📌 À faire (4):
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-29: Création d’un ticket FINALEEEE via API POST [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-28: Test finaux [Abdelmalek Abed] [Story] [Low]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-7: Documentation du projet [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-6: Tester la création d’un ticket depuis le front [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,865] INFO in script_jira: 
+📌 En cours (1):
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-5: Créer une interface web simple [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira: 
+📌 Terminé(e) (10):
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-27: création d'un ticket de type task [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-24: Test du type [Unassigned] [Epic] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-19: Test 12 [Unassigned] [Bug] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-13: Test de l'interface [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-11: Test du script [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-8: Mettre en place un script Python d'automatisation des requêtes JIRA [Unassigned] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-4: Créer une API Flask/Express intermédiaire [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-3: Créer un ticket JIRA via POST [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-2: Tester les requêtes GET avec Postman [Abdelmalek Abed] [Tâche] [Medium]
+[2025-09-01 17:30:09,865] INFO in script_jira:    - AGTJ-1: Étudier la documentation REST API de JIRA [Abdelmalek Abed] [Tâche] [High]
+[2025-09-01 17:30:09,866] INFO in api: Tickets filtrés: 15 tickets dans 3 statuts
+[2025-09-01 17:30:09,866] INFO in api: ✅ GET /api/tickets - 0.576s
+[2025-09-01 17:30:09,867] INFO in _internal: 127.0.0.1 - - [01/Sep/2025 17:30:09] "GET /api/tickets HTTP/1.1" 200 -
