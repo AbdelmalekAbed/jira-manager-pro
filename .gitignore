@@ -27,3 +27,12 @@ yarn-error.log*
 # Environment variables
 .env
 .env.*
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
