@@ -21,6 +21,11 @@ from typing import Dict, List, Optional
 import json
 from dotenv import load_dotenv
 import requests.exceptions
+from collections import defaultdict, Counter
+from datetime import datetime, timedelta
+from dateutil import parser
+from flask import request, jsonify
+from dateutil.tz import tzutc  
 
 # Import du module Jira existant
 try:
@@ -99,7 +104,7 @@ def validate_environment():
         raise EnvironmentError(error_msg)
 
 ISSUE_TYPE_MAPPING = {
-    'task': 'Tâche',
+    'tâche': 'Tâche',
     'bug': 'Bug',
     'story': 'Story',
     'epic': 'Epic'
@@ -109,6 +114,13 @@ def translate_issue_type(issue_type_name: str) -> str:
     """Traduit le nom du type de ticket si nécessaire."""
     return ISSUE_TYPE_MAPPING.get(issue_type_name.lower(), issue_type_name)
 
+# Fonction utilitaire pour normaliser les assignés
+def normalize_assignee(assignee):
+    """Normalise les valeurs d'assigné pour éliminer les doublons"""
+    if not assignee or assignee.lower() in ['unassigned', 'non assigné', 'non-assigne', '']:
+        return 'Non assigné'
+    return assignee.strip()
+
 # Initialisation du gestionnaire Jira
 try:
     validate_environment()
@@ -117,7 +129,6 @@ try:
 except Exception as e:
     app.logger.error(f"❌ Erreur d'initialisation JiraManager: {e}")
     jira_manager = None
-
 
 # Fonction utilitaire pour récupérer les types de tickets valides
 def get_valid_issue_types():
@@ -130,19 +141,27 @@ def get_valid_issue_types():
             return issue_types
         else:
             app.logger.error(f"Impossible de récupérer les types de tickets: {response.status_code if response else 'Pas de réponse'}")
-            # Types par défaut - ajustez selon votre configuration Jira
             return ['Task', 'Bug', 'Story', 'Epic']
     except Exception as e:
         app.logger.error(f"Erreur lors de la récupération des types: {str(e)}")
-        return ['Task', 'Bug', 'Story', 'Epic']  # Types par défaut
+        return ['Task', 'Bug', 'Story', 'Epic']
 
 # Fonction utilitaire pour valider l'accountId
 def validate_account_id(assignee: str) -> Optional[str]:
     """Valide et convertit un assignee (email, nom, ou accountId) en accountId"""
-    if not assignee or assignee.lower() in ['non assigné', 'non-assigne']:
+    if not assignee:
         return None
+    
+    # Normaliser l'assigné
+    normalized = normalize_assignee(assignee)
+    if normalized == 'Non assigné':
+        return None
+    
+    # Si c'est déjà un accountId (format long avec caractères alphanumériques et certains caractères spéciaux)
     if len(assignee) > 20 and all(c.isalnum() or c in [':', '-'] for c in assignee):
         return assignee
+    
+    # Rechercher l'utilisateur
     response = jira_manager._make_request("GET", f"user/search?query={assignee}")
     if response and response.status_code == 200:
         users = response.json()
@@ -216,10 +235,10 @@ def validate_json(required_fields: List[str] = None, optional_fields: List[str] 
             return f(data, *args, **kwargs)
         return decorated_function
     return decorator
+
 # Fonction utilitaire pour parser les informations des tickets depuis le format string
-# Assurez-vous que la fonction parse_ticket_info extrait correctement la priorité
 def parse_ticket_info(ticket_string):
-    """Parse les informations d'un ticket depuis le format string"""
+    """Parse les informations d'un ticket depuis le format string avec normalisation des assignés"""
     try:
         # Format attendu: "KEY: SUMMARY [ASSIGNEE] [TYPE] [PRIORITY]"
         parts = ticket_string.split(': ', 1)
@@ -234,7 +253,8 @@ def parse_ticket_info(ticket_string):
         bracket_matches = re.findall(r'\[([^\]]+)\]', rest)
         
         if len(bracket_matches) >= 3:  # Au moins assignee, type et priority
-            assignee = bracket_matches[0] if bracket_matches[0] != 'Unassigned' else None
+            assignee_raw = bracket_matches[0]
+            assignee = normalize_assignee(assignee_raw)
             issue_type = bracket_matches[1]
             priority = bracket_matches[2]
             
@@ -311,7 +331,7 @@ def health_check():
             'status': 'healthy',
             'timestamp': datetime.now().isoformat(),
             'jira_connection': jira_status,
-            'version': '2.5.5'
+            'version': '2.5.6'
         }), 200
     except Exception as e:
         return jsonify({
@@ -424,14 +444,14 @@ def get_priorities():
 @log_request
 @validate_jira_connection
 def list_tickets():
-    """Récupère la liste des tickets avec filtrage amélioré par type et priorité"""
+    """Récupère la liste des tickets avec filtrage amélioré et normalisation des assignés"""
     try:
         search = request.args.get('search', '').strip()
-        assignee_filter = request.args.get('assignee', '').strip()
-        type_filter = request.args.get('type', '').strip()
-        status_filter = request.args.get('status', '').strip()
-        priority_filter = request.args.get('priority', '').strip()  # Nouveau filtre
-        
+        assignee_filter = request.args.get('assignee', 'all').strip()
+        type_filter = request.args.get('type', 'all').strip()
+        status_filter = request.args.get('status', 'all').strip()
+        priority_filter = request.args.get('priority', 'all').strip()
+
         app.logger.info(f"Récupération tickets - search: '{search}', assignee: '{assignee_filter}', type: '{type_filter}', status: '{status_filter}', priority: '{priority_filter}'")
         
         tickets = jira_manager.get_tickets()
@@ -444,45 +464,53 @@ def list_tickets():
         
         for status, ticket_list in tickets.items():
             # Filtrage par statut
-            if status_filter and status_filter.lower() != 'all' and status_filter.upper() != status.upper():
+            status_matches = (status_filter.lower() in ['all', ''] or 
+                            status_filter.upper() == status.upper())
+            
+            if not status_matches:
                 continue
                 
             filtered_list = []
             
             for ticket_string in ticket_list:
-                # Parser les informations du ticket
+                # Parser les informations du ticket avec normalisation
                 ticket_info = parse_ticket_info(ticket_string)
                 if not ticket_info:
                     continue
                 
+                passes_all_filters = True
+                
                 # Filtrage par recherche
                 if search and search.lower() not in ticket_string.lower():
-                    continue
+                    passes_all_filters = False
                 
-                # Filtrage par assignee
-                if assignee_filter and assignee_filter.lower() != 'all':
-                    ticket_assignee = ticket_info['assignee'] or 'Unassigned'
-                    if assignee_filter.lower() == 'unassigned':
-                        if ticket_assignee != 'Unassigned':
-                            continue
-                    elif assignee_filter.lower() not in ticket_assignee.lower():
-                        continue
+                # Filtrage par assignee - normalisation complète
+                if passes_all_filters and assignee_filter.lower() not in ['all', '']:
+                    ticket_assignee = normalize_assignee(ticket_info['assignee'])
+                    normalized_filter = normalize_assignee(assignee_filter)
+                    
+                    if normalized_filter == 'Non assigné':
+                        if ticket_assignee != 'Non assigné':
+                            passes_all_filters = False
+                    elif ticket_assignee != normalized_filter:
+                        passes_all_filters = False
                 
                 # Filtrage par type
-                if type_filter and type_filter.lower() != 'all':
+                if passes_all_filters and type_filter.lower() not in ['all', '']:
                     ticket_type = ticket_info.get('issue_type', '')
                     if type_filter.lower() != ticket_type.lower():
-                        continue
+                        passes_all_filters = False
                 
-                # Filtrage par priorité - nouveau
-                if priority_filter and priority_filter.lower() != 'all':
+                # Filtrage par priorité
+                if passes_all_filters and priority_filter.lower() not in ['all', '']:
                     ticket_priority = ticket_info.get('priority', '')
                     if priority_filter.lower() != ticket_priority.lower():
-                        continue
+                        passes_all_filters = False
                 
-                filtered_list.append(ticket_string)
+                if passes_all_filters:
+                    filtered_list.append(ticket_string)
             
-            if filtered_list:
+            if status_matches:
                 filtered_tickets[status] = filtered_list
         
         app.logger.info(f"Tickets filtrés: {sum(len(v) for v in filtered_tickets.values())} tickets dans {len(filtered_tickets)} statuts")
@@ -503,14 +531,104 @@ def list_tickets():
             'message': str(e)
         }), 500
 
+@app.route('/api/filters/assignees', methods=['GET'])
+@limiter.limit("20 per minute")
+@log_request
+@validate_jira_connection
+def get_unique_assignees():
+    """Récupère la liste unique des assignees pour le filtre avec normalisation"""
+    try:
+        tickets = jira_manager.get_tickets()
+        assignees = set()
+        
+        for status, ticket_list in tickets.items():
+            for ticket_string in ticket_list:
+                ticket_info = parse_ticket_info(ticket_string)
+                if ticket_info:
+                    normalized_assignee = normalize_assignee(ticket_info['assignee'])
+                    assignees.add(normalized_assignee)
+        
+        # Convertir en liste, trier et s'assurer que "Non assigné" est en premier si présent
+        assignee_list = sorted(list(assignees))
+        if 'Non assigné' in assignee_list:
+            assignee_list.remove('Non assigné')
+            assignee_list.insert(0, 'Non assigné')
+        
+        return jsonify({
+            'success': True,
+            'assignees': assignee_list
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"Erreur récupération assignees: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Erreur récupération assignees',
+            'message': str(e)
+        }), 500
 
+@app.route('/api/filters/types', methods=['GET'])
+@limiter.limit("20 per minute")
+@log_request
+@validate_jira_connection
+def get_unique_types():
+    """Récupère la liste unique des types de tickets pour le filtre"""
+    try:
+        tickets = jira_manager.get_tickets()
+        types = set()
+        
+        for status, ticket_list in tickets.items():
+            for ticket_string in ticket_list:
+                ticket_info = parse_ticket_info(ticket_string)
+                if ticket_info:
+                    issue_type = ticket_info.get('issue_type', '')
+                    if issue_type:
+                        types.add(issue_type)
+        
+        type_list = sorted(list(types))
+        
+        return jsonify({
+            'success': True,
+            'types': type_list
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"Erreur récupération types: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Erreur récupération types',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/filters/statuses', methods=['GET'])
+@limiter.limit("20 per minute")
+@log_request
+@validate_jira_connection
+def get_unique_statuses():
+    """Récupère la liste unique des statuts pour le filtre"""
+    try:
+        tickets = jira_manager.get_tickets()
+        statuses = list(tickets.keys()) if tickets else []
+        
+        return jsonify({
+            'success': True,
+            'statuses': statuses
+        }), 200
+        
+    except Exception as e:
+        app.logger.error(f"Erreur récupération statuses: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Erreur récupération statuses',
+            'message': str(e)
+        }), 500
 
 @app.route('/api/tickets/<ticket_key>/details', methods=['GET'])
 @limiter.limit("50 per minute")
 @log_request
 @validate_jira_connection
 def get_ticket_details(ticket_key):
-    """Récupère les détails complets d'un ticket avec gestion correcte du type"""
+    """Récupère les détails complets d'un ticket avec normalisation des assignés"""
     try:
         if not ticket_key.strip():
             return jsonify({
@@ -538,17 +656,21 @@ def get_ticket_details(ticket_key):
                 elif isinstance(desc, str):
                     description_content = desc
             
-            # Extraire les informations avec gestion d'erreur
+            # Normaliser l'assigné
+            assignee_raw = None
+            if issue_data['fields'].get('assignee'):
+                assignee_raw = issue_data['fields']['assignee'].get('displayName')
+            assignee_normalized = normalize_assignee(assignee_raw)
+            
             ticket_details = {
                 'key': issue_data.get('key', ticket_key),
                 'summary': issue_data['fields'].get('summary', 'Sans titre'),
                 'description': description_content.strip(),
                 'status': issue_data['fields']['status']['name'],
-                'assignee': (issue_data['fields']['assignee']['displayName'] 
-                           if issue_data['fields'].get('assignee') else 'Non assigné'),
+                'assignee': assignee_normalized,
                 'priority': (issue_data['fields']['priority']['name'] 
                            if issue_data['fields'].get('priority') else 'Non définie'),
-                'issueType': issue_data['fields']['issuetype']['name'],  # Champ cohérent
+                'issueType': issue_data['fields']['issuetype']['name'],
                 'created': issue_data['fields'].get('created', ''),
                 'updated': issue_data['fields'].get('updated', ''),
                 'reporter': (issue_data['fields']['reporter']['displayName'] 
@@ -557,7 +679,7 @@ def get_ticket_details(ticket_key):
                           if issue_data['fields'].get('project') else 'Inconnu')
             }
             
-            app.logger.info(f"✅ Détails récupérés pour {ticket_key}, type: {ticket_details['issueType']}")
+            app.logger.info(f"✅ Détails récupérés pour {ticket_key}, assigné: {assignee_normalized}")
             return jsonify({
                 'success': True,
                 'ticket': ticket_details
@@ -621,9 +743,9 @@ def create_ticket(data):
             }), 400
         
         if not issue_type:
-            issue_type = 'Task'  # Valeur par défaut
+            issue_type = 'Task'
         
-        # Valider et normaliser le type de ticket
+        # Valider le type de ticket
         valid_issue_types = get_valid_issue_types()
         issue_type_normalized = None
         for valid_type in valid_issue_types:
@@ -632,7 +754,7 @@ def create_ticket(data):
                 break
         
         if not issue_type_normalized:
-            app.logger.warning(f"Type de ticket invalide: {issue_type}, types valides: {valid_issue_types}")
+            app.logger.warning(f"Type de ticket invalide: {issue_type}")
             return jsonify({
                 'success': False,
                 'error': 'Type de ticket invalide',
@@ -642,18 +764,20 @@ def create_ticket(data):
         # Valider l'assignee si fourni
         validated_assignee = None
         if assignee:
-            validated_assignee = validate_account_id(assignee)
-            if assignee and not validated_assignee:
-                app.logger.warning(f"Assignee invalide: {assignee}")
-                return jsonify({
-                    'success': False,
-                    'error': 'Assignee invalide',
-                    'message': f"L'utilisateur '{assignee}' n'a pas été trouvé"
-                }), 400
+            # Normaliser d'abord
+            normalized_assignee = normalize_assignee(assignee)
+            if normalized_assignee != 'Non assigné':
+                validated_assignee = validate_account_id(assignee)
+                if not validated_assignee:
+                    app.logger.warning(f"Assignee invalide: {assignee}")
+                    return jsonify({
+                        'success': False,
+                        'error': 'Assignee invalide',
+                        'message': f"L'utilisateur '{assignee}' n'a pas été trouvé"
+                    }), 400
         
         app.logger.info(f"Création ticket - résumé: '{summary[:50]}...', type: {issue_type_normalized}, assignee: {validated_assignee}, priorité: {priority}")
         
-        # Créer le ticket avec tous les paramètres
         success = jira_manager.create_ticket(
             summary=summary, 
             description=description, 
@@ -663,14 +787,14 @@ def create_ticket(data):
         )
         
         if success:
-            app.logger.info(f"✅ Ticket créé avec succès avec le type: {issue_type_normalized}")
+            app.logger.info(f"✅ Ticket créé avec succès")
             return jsonify({
                 'success': True,
-                'message': f'Ticket créé avec succès (type: {issue_type_normalized})',
+                'message': f'Ticket créé avec succès',
                 'issue_type': issue_type_normalized
             }), 201
         else:
-            app.logger.warning(f"❌ Échec création ticket avec type {issue_type_normalized}")
+            app.logger.warning(f"❌ Échec création ticket")
             return jsonify({
                 'success': False,
                 'error': 'Échec de la création du ticket',
@@ -691,7 +815,7 @@ def create_ticket(data):
 @validate_jira_connection
 @validate_json()
 def update_ticket(data, ticket_key):
-    """Met à jour un ticket avec gestion correcte du type, assignee et priorité"""
+    """Met à jour un ticket avec normalisation des assignés"""
     try:
         if not ticket_key.strip():
             return jsonify({
@@ -703,7 +827,29 @@ def update_ticket(data, ticket_key):
         new_description = data.get('description', '').strip()
         new_priority = data.get('priority', '').strip() or None
         new_issue_type = translate_issue_type(data.get('issueType'))
-        new_assignee = data.get('assignee', '').strip() or None
+        
+        # CORRECTION : Gérer correctement l'assigné
+        validated_assignee = None
+        assignee_changed = False
+        
+        if 'assignee' in data:  # Vérifier si le champ assignee est présent dans la requête
+            assignee_changed = True
+            new_assignee = data['assignee']
+            
+            # Si l'assigné est None, vide, ou "Non assigné", désassigner
+            if new_assignee is None or new_assignee == "" or new_assignee == "Non assigné":
+                validated_assignee = None
+                app.logger.info(f"Désassignation du ticket {ticket_key}")
+            else:
+                # Valider l'assigné
+                validated_assignee = validate_account_id(new_assignee)
+                if not validated_assignee:
+                    app.logger.warning(f"Assignee invalide: {new_assignee}")
+                    return jsonify({
+                        'success': False,
+                        'error': 'Assignee invalide',
+                        'message': f"L'utilisateur '{new_assignee}' n'a pas été trouvé"
+                    }), 400
         
         # Validations
         if new_summary and len(new_summary) < 5:
@@ -712,13 +858,7 @@ def update_ticket(data, ticket_key):
                 'error': 'Le résumé doit contenir au moins 5 caractères'
             }), 400
         
-        if not any([new_summary, new_description, new_priority, new_issue_type, new_assignee]):
-            return jsonify({
-                'success': False,
-                'error': 'Au moins un champ doit être fourni pour la mise à jour'
-            }), 400
-        
-        # Valider et normaliser le nouveau type si fourni
+        # Valider le nouveau type si fourni
         new_issue_type_normalized = None
         if new_issue_type:
             valid_issue_types = get_valid_issue_types()
@@ -731,41 +871,31 @@ def update_ticket(data, ticket_key):
                 return jsonify({
                     'success': False,
                     'error': 'Type de ticket invalide',
-                    'message': f"Le type '{new_issue_type}' n'est pas valide. Types disponibles: {', '.join(valid_issue_types)}"
+                    'message': f"Le type '{new_issue_type}' n'est pas valide"
                 }), 400
         
-        # Valider l'assignee si fourni
-        validated_assignee = None
-        if new_assignee is not None:  # Permet de passer une chaîne vide pour désassigner
-            if new_assignee:  # Si non vide, valider
-                validated_assignee = validate_account_id(new_assignee)
-                if not validated_assignee:
-                    app.logger.warning(f"Assignee invalide: {new_assignee}")
-                    return jsonify({
-                        'success': False,
-                        'error': 'Assignee invalide',
-                        'message': f"L'utilisateur '{new_assignee}' n'a pas été trouvé"
-                    }), 400
-            # Si new_assignee est une chaîne vide, validated_assignee reste None (désassignation)
+        if not any([new_summary, new_description, new_priority, new_issue_type_normalized, assignee_changed]):
+            return jsonify({
+                'success': False,
+                'error': 'Au moins un champ doit être fourni pour la mise à jour'
+            }), 400
         
-        app.logger.info(f"Mise à jour ticket {ticket_key}, nouveau type: {new_issue_type_normalized or 'non modifié'}, assignee: {validated_assignee}, priorité: {new_priority}")
+        app.logger.info(f"Mise à jour ticket {ticket_key} - Assigné: {validated_assignee if assignee_changed else 'inchangé'}")
         
-        # Mettre à jour le ticket avec tous les paramètres
         success = jira_manager.update_ticket(
             ticket_key=ticket_key, 
             new_summary=new_summary or None,
             new_description=new_description or None,
             new_issue_type=new_issue_type_normalized,
             new_priority=new_priority,
-            new_assignee=validated_assignee if new_assignee is not None else None
+            new_assignee=validated_assignee if assignee_changed else 'no_change'
         )
         
         if success:
             app.logger.info(f"✅ Ticket {ticket_key} mis à jour avec succès")
             return jsonify({
                 'success': True,
-                'message': f'Ticket {ticket_key} mis à jour avec succès',
-                'issue_type': new_issue_type_normalized
+                'message': f'Ticket {ticket_key} mis à jour avec succès'
             }), 200
         else:
             return jsonify({
@@ -846,20 +976,6 @@ def get_ticket_transitions(ticket_key):
                 'message': 'Vérifiez que le ticket existe'
             }), 404
             
-    except requests.exceptions.Timeout:
-        app.logger.error(f"Erreur réseau récupération transitions {ticket_key}: Timeout")
-        return jsonify({
-            'success': False,
-            'error': 'Timeout réseau',
-            'message': 'Délai d\'attente dépassé lors de la communication avec Jira'
-        }), 500
-    except requests.exceptions.ConnectionError:
-        app.logger.error(f"Erreur réseau récupération transitions {ticket_key}: Échec connexion")
-        return jsonify({
-            'success': False,
-            'error': 'Erreur connexion',
-            'message': 'Impossible de se connecter au serveur Jira'
-        }), 500
     except Exception as e:
         app.logger.error(f"Erreur récupération transitions {ticket_key}: {str(e)}")
         if "permission" in str(e).lower():
@@ -880,7 +996,7 @@ def get_ticket_transitions(ticket_key):
 @validate_jira_connection
 @validate_json(required_fields=['transition_name'])
 def transition_ticket(data, ticket_key):
-    """Change le statut d'un ticket avec commentaire optionnel pour 'Terminé'"""
+    """Change le statut d'un ticket"""
     try:
         if not ticket_key.strip():
             return jsonify({
@@ -897,7 +1013,7 @@ def transition_ticket(data, ticket_key):
                 'error': 'Nom de la transition requis'
             }), 400
         
-        app.logger.info(f"Transition ticket {ticket_key} vers '{transition_name}' avec commentaire: {comment[:30] if comment else 'Aucun'}")
+        app.logger.info(f"Transition ticket {ticket_key} vers '{transition_name}'")
         
         success = True
         failed_operations = []
@@ -917,63 +1033,33 @@ def transition_ticket(data, ticket_key):
                 }
             }
             response = jira_manager._make_request('POST', f'issue/{ticket_key}/comment', json=comment_payload)
-            if not response:
-                app.logger.error(f"Échec ajout commentaire: aucune réponse pour {ticket_key}")
-                failed_operations.append("Ajout commentaire échoué: erreur réseau ou serveur Jira inaccessible")
-                success = False
-            elif response.status_code not in (200, 201):
-                app.logger.warning(f"Échec ajout commentaire: {response.status_code} - {response.text}")
-                if response.status_code == 403:
-                    failed_operations.append("Ajout commentaire échoué: permission refusée")
-                else:
-                    failed_operations.append(f"Ajout commentaire échoué: {response.text}")
+            if not response or response.status_code not in (200, 201):
+                failed_operations.append("Ajout commentaire échoué")
                 success = False
             else:
-                app.logger.info(f"✅ Commentaire ajouté avec succès pour {ticket_key}")
+                app.logger.info(f"✅ Commentaire ajouté pour {ticket_key}")
         
         # Effectuer la transition
         transition_success = jira_manager.transition_ticket(ticket_key, transition_name)
         if not transition_success:
-            app.logger.warning(f"❌ Échec transition ticket {ticket_key}")
-            failed_operations.append("Transition échouée: vérifiez que la transition est valide pour le statut actuel")
+            failed_operations.append("Transition échouée")
             success = False
         
         if success or transition_success:
-            app.logger.info(f"✅ Ticket {ticket_key} transitionné vers '{transition_name}'" + (f', mais {", ".join(failed_operations)}' if failed_operations else ''))
+            app.logger.info(f"✅ Ticket {ticket_key} transitionné vers '{transition_name}'")
             return jsonify({
                 'success': True,
-                'message': f'Ticket {ticket_key} transitionné vers \'{transition_name}\' avec succès' + (f', mais {", ".join(failed_operations)}' if failed_operations else '')
+                'message': f'Ticket {ticket_key} transitionné avec succès'
             }), 200
         else:
-            app.logger.warning(f"❌ Échec transition ticket {ticket_key}: {', '.join(failed_operations)}")
             return jsonify({
                 'success': False,
                 'error': 'Échec de la transition du ticket',
-                'message': f"Vérifiez les valeurs fournies et les permissions: {', '.join(failed_operations)}"
+                'message': f"Erreurs: {', '.join(failed_operations)}"
             }), 400
             
-    except requests.exceptions.Timeout:
-        app.logger.error(f"Erreur réseau transition ticket {ticket_key}: Timeout")
-        return jsonify({
-            'success': False,
-            'error': 'Timeout réseau',
-            'message': 'Délai d\'attente dépassé lors de la communication avec Jira'
-        }), 500
-    except requests.exceptions.ConnectionError:
-        app.logger.error(f"Erreur réseau transition ticket {ticket_key}: Échec connexion")
-        return jsonify({
-            'success': False,
-            'error': 'Erreur connexion',
-            'message': 'Impossible de se connecter au serveur Jira'
-        }), 500
     except Exception as e:
         app.logger.error(f"Erreur transition ticket {ticket_key}: {str(e)}")
-        if "permission" in str(e).lower():
-            return jsonify({
-                'success': False,
-                'error': 'Permission refusée',
-                'message': 'Vous n\'avez pas les permissions nécessaires pour effectuer cette transition'
-            }), 403
         return jsonify({
             'success': False,
             'error': 'Erreur lors de la transition du ticket',
@@ -998,7 +1084,6 @@ def delete_ticket(ticket_key):
         response = jira_manager._make_request("DELETE", f"issue/{ticket_key}")
         
         if not response:
-            app.logger.error(f"Échec suppression ticket: aucune réponse pour {ticket_key}")
             return jsonify({
                 'success': False,
                 'error': 'Échec de la suppression du ticket',
@@ -1012,7 +1097,7 @@ def delete_ticket(ticket_key):
                 'message': f'Ticket {ticket_key} supprimé avec succès'
             }), 200
         else:
-            app.logger.warning(f"❌ Échec suppression ticket {ticket_key} - Status: {response.status_code}")
+            app.logger.warning(f"❌ Échec suppression ticket {ticket_key}")
             
             if response.status_code == 404:
                 return jsonify({
@@ -1033,28 +1118,8 @@ def delete_ticket(ticket_key):
                     'message': response.text
                 }), response.status_code
             
-    except requests.exceptions.Timeout:
-        app.logger.error(f"Erreur réseau suppression ticket {ticket_key}: Timeout")
-        return jsonify({
-            'success': False,
-            'error': 'Timeout réseau',
-            'message': 'Délai d\'attente dépassé lors de la communication avec Jira'
-        }), 500
-    except requests.exceptions.ConnectionError:
-        app.logger.error(f"Erreur réseau suppression ticket {ticket_key}: Échec connexion")
-        return jsonify({
-            'success': False,
-            'error': 'Erreur connexion',
-            'message': 'Impossible de se connecter au serveur Jira'
-        }), 500
     except Exception as e:
         app.logger.error(f"Erreur suppression ticket {ticket_key}: {str(e)}")
-        if "permission" in str(e).lower():
-            return jsonify({
-                'success': False,
-                'error': 'Permission refusée',
-                'message': 'Vous n\'avez pas les permissions nécessaires pour supprimer ce ticket'
-            }), 403
         return jsonify({
             'success': False,
             'error': 'Erreur lors de la suppression du ticket',
@@ -1066,7 +1131,7 @@ def delete_ticket(ticket_key):
 @log_request
 @validate_jira_connection
 def get_stats():
-    """Récupère les statistiques des tickets"""
+    """Récupère les statistiques des tickets avec normalisation des assignés"""
     try:
         tickets = jira_manager.get_tickets()
         
@@ -1090,41 +1155,204 @@ def get_stats():
             stats['total_tickets'] += len(ticket_list)
             
             for ticket in ticket_list:
-                assignee_match = ticket.split('[')[-1].replace(']', '') if '[' in ticket else 'Unassigned'
-                if assignee_match == 'Unassigned':
-                    stats['unassigned_count'] += 1
-                else:
-                    stats['by_assignee'][assignee_match] = stats['by_assignee'].get(assignee_match, 0) + 1
+                ticket_info = parse_ticket_info(ticket)
+                if ticket_info:
+                    assignee = normalize_assignee(ticket_info['assignee'])
+                    if assignee == 'Non assigné':
+                        stats['unassigned_count'] += 1
+                    else:
+                        stats['by_assignee'][assignee] = stats['by_assignee'].get(assignee, 0) + 1
         
         return jsonify(stats), 200
         
-    except requests.exceptions.Timeout:
-        app.logger.error(f"Erreur réseau récupération statistiques: Timeout")
-        return jsonify({
-            'success': False,
-            'error': 'Timeout réseau',
-            'message': 'Délai d\'attente dépassé lors de la communication avec Jira'
-        }), 500
-    except requests.exceptions.ConnectionError:
-        app.logger.error(f"Erreur réseau récupération statistiques: Échec connexion")
-        return jsonify({
-            'success': False,
-            'error': 'Erreur connexion',
-            'message': 'Impossible de se connecter au serveur Jira'
-        }), 500
     except Exception as e:
         app.logger.error(f"Erreur récupération statistiques: {str(e)}")
-        if "permission" in str(e).lower():
-            return jsonify({
-                'success': False,
-                'error': 'Permission refusée',
-                'message': 'Vous n\'avez pas les permissions nécessaires pour accéder aux statistiques'
-            }), 403
         return jsonify({
             'success': False,
             'error': 'Erreur lors de la récupération des statistiques',
             'message': str(e)
         }), 500
+
+@app.route('/api/analytics', methods=['GET'])
+@limiter.limit("10 per minute")
+@log_request
+@validate_jira_connection
+def get_analytics():
+    """Récupère les statistiques analytiques des tickets"""
+    try:
+        app.logger.info("Starting analytics retrieval")
+        tickets_by_status = jira_manager.get_tickets()
+        all_tickets = []
+        
+        for status, ticket_list in tickets_by_status.items():
+            for ticket_string in ticket_list:
+                ticket_info = parse_ticket_info(ticket_string)
+                if ticket_info:
+                    response = jira_manager._make_request("GET", f"issue/{ticket_info['key']}")
+                    if response and response.status_code == 200:
+                        ticket_data = response.json()
+                        ticket_info['created'] = ticket_data['fields'].get('created')
+                        ticket_info['resolutiondate'] = ticket_data['fields'].get('resolutiondate')
+                        # Normaliser l'assigné dans les analytics
+                        assignee_raw = None
+                        if ticket_data['fields'].get('assignee'):
+                            assignee_raw = ticket_data['fields']['assignee'].get('displayName')
+                        ticket_info['assignee'] = normalize_assignee(assignee_raw)
+                        all_tickets.append(ticket_info)
+
+        if not all_tickets:
+            return jsonify({
+                'tickets_per_week': [],
+                'priority_distribution': {},
+                'type_distribution': {},
+                'avg_resolution_time': 0.0
+            }), 200
+
+        # Ticket count per week
+        tickets_per_week = defaultdict(int)
+        for ticket in all_tickets:
+            if ticket['created']:
+                created_date = parser.parse(ticket['created'])
+                year_week = f"{created_date.year}-{created_date.isocalendar()[1]:02d}"
+                tickets_per_week[year_week] += 1
+        tickets_per_week_list = [{"week": k, "count": v} for k, v in sorted(tickets_per_week.items())]
+
+        # Priority distribution
+        priority_dist = Counter(ticket.get('priority', 'Unknown') for ticket in all_tickets)
+
+        # Type distribution
+        type_dist = Counter(ticket.get('issue_type', 'Unknown') for ticket in all_tickets)
+
+        # Average resolution time (in days, for resolved tickets)
+        resolution_times = []
+        for ticket in all_tickets:
+            if ticket['resolutiondate'] and ticket['created']:
+                created = parser.parse(ticket['created'])
+                resolved = parser.parse(ticket['resolutiondate'])
+                resolution_times.append((resolved - created).total_seconds() / 86400)
+        avg_resolution = sum(resolution_times) / len(resolution_times) if resolution_times else 0.0
+
+        return jsonify({
+            'tickets_per_week': tickets_per_week_list,
+            'priority_distribution': dict(priority_dist),
+            'type_distribution': dict(type_dist),
+            'avg_resolution_time': round(avg_resolution, 1)
+        }), 200
+
+    except Exception as e:
+        app.logger.error(f"Error in analytics retrieval: {str(e)}")
+        app.logger.error(f"Traceback: {traceback.format_exc()}")
+        return jsonify({
+            'success': False,
+            'error': 'Erreur lors de la récupération des analytics',
+            'message': str(e)
+        }), 500
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+@app.route('/api/analytics/filtered', methods=['GET'])
+@limiter.limit("10 per minute")
+@log_request
+@validate_jira_connection
+def get_filtered_analytics():
+    """Récupère les analytics filtrées avec normalisation des assignés"""
+    try:
+        time_filter = request.args.get('time', 'all')
+        tickets_by_status = jira_manager.get_tickets()
+        
+        all_tickets = []
+        for status, ticket_list in tickets_by_status.items():
+            for ticket_string in ticket_list:
+                ticket_info = parse_ticket_info(ticket_string)
+                if ticket_info:
+                    response = jira_manager._make_request("GET", f"issue/{ticket_info['key']}")
+                    if response and response.status_code == 200:
+                        ticket_data = response.json()
+                        ticket_info['created'] = ticket_data['fields'].get('created')
+                        ticket_info['resolution_date'] = ticket_data['fields'].get('resolutiondate')
+                        ticket_info['updated'] = ticket_data['fields'].get('updated')
+                        
+                        # Normaliser l'assigné
+                        assignee_raw = None
+                        if ticket_data['fields'].get('assignee'):
+                            assignee_raw = ticket_data['fields']['assignee'].get('displayName')
+                        ticket_info['assignee'] = normalize_assignee(assignee_raw)
+                        
+                        issue_type = ticket_data['fields'].get('issuetype', {}).get('name', 'Unknown')
+                        ticket_info['type'] = 'Task' if issue_type == 'Tâche' else issue_type
+                        all_tickets.append(ticket_info)
+
+        tickets_per_week = defaultdict(int)
+        priority_distribution = defaultdict(int)
+        type_distribution = defaultdict(int)
+        assignment_distribution = defaultdict(int)
+        total_resolution_time = 0
+        resolved_count = 0
+
+        current_date = datetime.now(tzutc())
+        filter_date = None
+        if time_filter == 'week':
+            filter_date = current_date - timedelta(days=7)
+        elif time_filter == 'month':
+            filter_date = current_date - timedelta(days=30)
+
+        filtered_ticket_count = 0
+        
+        for ticket in all_tickets:
+            created_str = ticket['created']
+            if created_str:
+                try:
+                    created = parser.parse(created_str).astimezone(tzutc())
+                    
+                    include_ticket = True
+                    if filter_date is not None:
+                        include_ticket = created >= filter_date
+                    
+                    if include_ticket:
+                        filtered_ticket_count += 1
+                        year_week = f"{created.year}-{created.isocalendar()[1]:02d}"
+                        tickets_per_week[year_week] += 1
+                        priority_distribution[ticket.get('priority', 'Unknown')] += 1
+                        type_distribution[ticket.get('type', 'Unknown')] += 1
+                        
+                        # Utiliser la valeur normalisée de l'assigné
+                        normalized_assignee = ticket['assignee']
+                        assignment_distribution['Non assignés' if normalized_assignee == 'Non assigné' else 'Assignés'] += 1
+
+                        # Resolution calculation with fallback to 'updated'
+                        resolution_date_str = ticket.get('resolution_date') or ticket.get('updated')
+                        if resolution_date_str:
+                            try:
+                                resolution_date = parser.parse(resolution_date_str).astimezone(tzutc())
+                                resolution_time = (resolution_date - created).days
+                                if resolution_time >= 0:
+                                    total_resolution_time += resolution_time
+                                    resolved_count += 1
+                            except ValueError as e:
+                                logger.error(f"Error parsing resolution/updated for {ticket['key']}: {e}")
+                        
+                except ValueError as e:
+                    logger.error(f"Error parsing created for {ticket.get('key', 'unknown')}: {e}")
+
+        avg_resolution_time = total_resolution_time / resolved_count if resolved_count > 0 else 0.0
+
+        return jsonify({
+            'success': True,
+            'tickets_per_week': [{'week': week, 'count': count} for week, count in sorted(tickets_per_week.items())],
+            'priority_distribution': dict(priority_distribution),
+            'type_distribution': dict(type_distribution),
+            'assignment_distribution': dict(assignment_distribution),
+            'avg_resolution_time': round(avg_resolution_time, 1),
+            'total_tickets': filtered_ticket_count,
+            'resolved_tickets': resolved_count
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error in filtered analytics: {str(e)}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 if __name__ == '__main__':
     if not jira_manager:
         print("❌ Impossible de démarrer l'API sans connexion Jira valide")
@@ -1135,7 +1363,7 @@ if __name__ == '__main__':
     print(f"🔧 Mode debug: {app.config['DEBUG']}")
     print(f"🌐 CORS autorisé pour: http://localhost:3000")
     print("📖 Documentation API disponible sur: /api/docs")
-    print("🆕 Version 2.5.5 avec gestion améliorée de 'Non assigné' et nettoyage des espaces")
+    print("🆕 Version 2.5.6 avec gestion unifiée des assignés")
     
     try:
         app.run(

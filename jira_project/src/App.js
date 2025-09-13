@@ -1,10 +1,11 @@
+// src/App.js
 import React from "react";
-import JiraManagerPro from "./project"; // chemin vers ton fichier
+import AppWrapper from "./AppWrapper";
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-100">
-      <JiraManagerPro />
+      <AppWrapper />
     </div>
   );
 }

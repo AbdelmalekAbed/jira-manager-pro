@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Search, Plus, Edit, Trash2, RefreshCw, Filter, AlertCircle, CheckCircle, Clock, User, Calendar, Tag, Settings, X, ArrowRight } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, RefreshCw, Filter, AlertCircle, CheckCircle, Clock, User, Tag, X, ArrowRight } from 'lucide-react';
+import AnalyticsDashboard from './AnalyticsDashboard';
 
 // Configuration de l'API
 const API_BASE_URL = 'http://localhost:5000/api';
@@ -43,11 +44,31 @@ const apiService = {
     if (filters.status && filters.status !== 'all') {
       params.append('status', filters.status);
     }
+    if (filters.priority && filters.priority !== 'all') {
+        params.append('priority', filters.priority);
+    }
     
     const queryString = params.toString();
     const endpoint = queryString ? `/tickets?${queryString}` : '/tickets';
     
     return await this.makeRequest(endpoint);
+  },
+
+  // Nouvelles méthodes pour récupérer les options de filtres
+  async getFilterAssignees() {
+    return await this.makeRequest('/filters/assignees');
+  },
+
+  async getFilterTypes() {
+    return await this.makeRequest('/filters/types');
+  },
+
+  async getFilterStatuses() {
+    return await this.makeRequest('/filters/statuses');
+  },
+
+  async getPriorities() {
+    return await this.makeRequest('/priorities');
   },
 
   async getTicketDetails(key) {
@@ -60,36 +81,45 @@ const apiService = {
       body: JSON.stringify({
         summary: data.summary,
         description: data.description,
-        issueType: data.issueType,  // Cohérent avec l'API
+        issueType: data.issueType,
         priority: data.priority,
         assignee: data.assignee
       }),
     });
   },
 
-  async updateTicket(key, data) {
-    const payload = {};
-    if (data.summary && data.summary.trim()) {
-      payload.summary = data.summary.trim();
-    }
-    if (data.description && data.description.trim()) {
-      payload.description = data.description.trim();
-    }
-    if (data.priority) {
-      payload.priority = data.priority;
-    }
-    if (data.issueType) {
-      payload.issueType = data.issueType;  // Cohérent
-    }
-    if (data.assignee) {
+  // Dans le fichier project.jsx, modifiez la fonction updateTicket dans apiService :
+
+async updateTicket(key, data) {
+  const payload = {};
+  if (data.summary && data.summary.trim()) {
+    payload.summary = data.summary.trim();
+  }
+  if (data.description && data.description.trim()) {
+    payload.description = data.description.trim();
+  }
+  if (data.priority) {
+    payload.priority = data.priority;
+  }
+  if (data.issueType) {
+    payload.issueType = data.issueType;
+  }
+  
+  // CORRECTION : Gérer correctement l'assigné
+  if (data.assignee !== undefined) {
+    // Si l'assigné est vide ou "Non assigné", envoyer null
+    if (data.assignee === "" || data.assignee === "Non assigné" || !data.assignee) {
+      payload.assignee = null;
+    } else {
       payload.assignee = data.assignee;
     }
-    
-    return await this.makeRequest(`/tickets/${key}`, {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-    });
-  },
+  }
+  
+  return await this.makeRequest(`/tickets/${key}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
+},
 
   async deleteTicket(key) {
     return await this.makeRequest(`/tickets/${key}`, {
@@ -122,6 +152,14 @@ const apiService = {
   }
 };
 
+// Fonction utilitaire pour normaliser les assignés
+const normalizeAssignee = (assignee) => {
+  if (!assignee || assignee === 'Unassigned' || assignee === 'unassigned' || assignee === '') {
+    return 'Non assigné';
+  }
+  return assignee;
+};
+
 // Fonction utilitaire pour parser les informations du ticket depuis le format string
 const parseTicketInfo = (ticketString) => {
   try {
@@ -141,7 +179,7 @@ const parseTicketInfo = (ticketString) => {
     
     if (brackets.length >= 3) {
       // Format: "KEY: SUMMARY [ASSIGNEE] [TYPE] [PRIORITY]"
-      const assignee = brackets[0] === 'Unassigned' ? 'Non assigné' : brackets[0];
+      const assignee = normalizeAssignee(brackets[0]);
       const issueType = brackets[1];
       const priority = brackets[2] || 'Medium';
       
@@ -158,7 +196,7 @@ const parseTicketInfo = (ticketString) => {
       };
     } else if (brackets.length >= 2) {
       // Ancien format sans priorité
-      const assignee = brackets[0] === 'Unassigned' ? 'Non assigné' : brackets[0];
+      const assignee = normalizeAssignee(brackets[0]);
       const issueType = brackets[1];
       
       const summaryMatch = rest.match(/^(.+?)\s*\[/);
@@ -252,7 +290,8 @@ const TicketCard = ({ ticket, onEdit, onDelete, onTransition }) => {
     const key = ticket.split(':')[0].trim();
     const rest = ticket.slice(key.length + 1).replace(/^:\s*/, '');
     const summary = rest.split(' [')[0];
-    const assignee = rest.match(/\[(.*?)\]/)?.[1] || 'Unassigned';
+    const assigneeRaw = rest.match(/\[(.*?)\]/)?.[1] || '';
+    const assignee = normalizeAssignee(assigneeRaw);
     
     return (
       <div className="jira-ticket-card">
@@ -364,8 +403,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-// CreateTicketModal amélioré
-const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees }) => {
+const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees, types, priorities }) => {
   const [formData, setFormData] = useState({
     summary: '',
     description: '',
@@ -456,10 +494,9 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees }) =>
                 className={`jira-form-select jira-w-full ${errors.issueType ? 'border-red-300' : ''}`}
               >
                 <option value="">Sélectionner un type</option>
-                <option value="Task">Task</option>
-                <option value="Bug">Bug</option>
-                <option value="Story">Story</option>
-                <option value="Epic">Epic</option>
+                {types.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
               </select>
               {errors.issueType && (
                 <p className="jira-form-error">{errors.issueType}</p>
@@ -475,10 +512,9 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees }) =>
                 onChange={(e) => handleChange('priority', e.target.value)}
                 className="jira-form-select jira-w-full"
               >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Highest">Highest</option>
+                {priorities.map(priority => (
+                  <option key={priority} value={priority}>{priority}</option>
+                ))}
               </select>
             </div>
             
@@ -492,7 +528,7 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees }) =>
                 className="jira-form-select jira-w-full"
               >
                 <option value="">Non assigné</option>
-                {assignees.map(assignee => (
+                {assignees.filter(assignee => assignee !== 'Non assigné').map(assignee => (
                   <option key={assignee} value={assignee}>{assignee}</option>
                 ))}
               </select>
@@ -524,7 +560,7 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit, loading, assignees }) =>
 };
 
 // EditTicketModal amélioré avec gestion correcte des types
-const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assignees }) => {
+const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assignees, types, priorities }) => {
   const [formData, setFormData] = useState({
     summary: '',
     description: '',
@@ -557,6 +593,24 @@ const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assign
     }
   };
 
+  // Fonction pour normaliser l'assigné
+  const getAssigneeName = (assigneeData) => {
+    if (!assigneeData) return '';
+    if (typeof assigneeData === 'string') {
+      return normalizeAssignee(assigneeData) === 'Non assigné' ? '' : normalizeAssignee(assigneeData);
+    }
+    if (typeof assigneeData === 'object') {
+      const displayName = assigneeData.displayName || 
+            assigneeData.name || 
+            assigneeData.key ||
+            assigneeData.accountId || 
+            assigneeData.emailAddress ||
+            '';
+      return normalizeAssignee(displayName) === 'Non assigné' ? '' : normalizeAssignee(displayName);
+    }
+    return '';
+  };
+
   // Charger les détails du ticket
   useEffect(() => {
     if (isOpen && ticketKey) {
@@ -582,22 +636,6 @@ const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assign
       const response = await apiService.getTicketDetails(ticketKey);
       if (response?.success && response.ticket) {
         const ticket = response.ticket;
-        
-        const getAssigneeName = (assigneeData) => {
-          if (!assigneeData) return '';
-          if (typeof assigneeData === 'string') {
-            return assigneeData === 'Unassigned' ? '' : assigneeData;
-          }
-          if (typeof assigneeData === 'object') {
-            return assigneeData.displayName || 
-                  assigneeData.name || 
-                  assigneeData.key ||
-                  assigneeData.accountId || 
-                  assigneeData.emailAddress ||
-                  '';
-          }
-          return '';
-        };
         
         const ticketData = {
           summary: ticket.summary || '',
@@ -718,10 +756,9 @@ const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assign
                 className="jira-form-select jira-w-full"
               >
                 <option value="">Sélectionner un type</option>
-                <option value="Task">Task</option>
-                <option value="Bug">Bug</option>
-                <option value="Story">Story</option>
-                <option value="Epic">Epic</option>
+                {types.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
               </select>
             </div>
             
@@ -735,10 +772,9 @@ const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assign
                 className="jira-form-select jira-w-full"
               >
                 <option value="">Sélectionner une priorité</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Highest">Highest</option>
+                {priorities.map(priority => (
+                  <option key={priority} value={priority}>{priority}</option>
+                ))}
               </select>
             </div>
             
@@ -752,7 +788,7 @@ const EditTicketModal = ({ isOpen, onClose, onSubmit, loading, ticketKey, assign
                 className="jira-form-select jira-w-full"
               >
                 <option value="">Non assigné</option>
-                {assignees.map(assignee => (
+                {assignees.filter(assignee => assignee !== 'Non assigné').map(assignee => (
                   <option key={assignee} value={assignee}>{assignee}</option>
                 ))}
               </select>
@@ -976,6 +1012,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, loading }) =
 export default function JiraManagerPro() {
   const [tickets, setTickets] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState('');
   const [connectionStatus, setConnectionStatus] = useState('unknown');
@@ -985,6 +1022,14 @@ export default function JiraManagerPro() {
     type: 'all',
     status: 'all',
     priority: 'all'
+  });
+
+  // États pour les options de filtres fixes
+  const [filterOptions, setFilterOptions] = useState({
+    assignees: [],
+    types: [],
+    statuses: [],
+    priorities: []
   });
   
   // Modal states
@@ -1019,6 +1064,38 @@ export default function JiraManagerPro() {
       setConnectionStatus('error');
     }
   }, []);
+
+  // Charger les options de filtres (indépendamment des tickets filtrés)
+  const loadFilterOptions = useCallback(async () => {
+    try {
+      const [assigneesRes, typesRes, statusesRes, prioritiesRes] = await Promise.all([
+        apiService.getFilterAssignees(),
+        apiService.getFilterTypes(), 
+        apiService.getFilterStatuses(),
+        apiService.getPriorities()
+      ]);
+
+      // Normaliser les assignés et s'assurer qu'il n'y a pas de doublons
+      const normalizedAssignees = assigneesRes.success ? 
+        [...new Set(assigneesRes.assignees.map(assignee => normalizeAssignee(assignee)))] : [];
+
+      setFilterOptions({
+        assignees: normalizedAssignees,
+        types: typesRes.success ? typesRes.types : ['Task', 'Bug', 'Story', 'Epic'],
+        statuses: statusesRes.success ? statusesRes.statuses : [],
+        priorities: prioritiesRes.success ? prioritiesRes.priorities : ['Low', 'Medium', 'High', 'Highest']
+      });
+    } catch (error) {
+      console.error('Error loading filter options:', error);
+      // Options par défaut en cas d'erreur
+      setFilterOptions({
+        assignees: [],
+        types: ['Task', 'Bug', 'Story', 'Epic'],
+        statuses: [],
+        priorities: ['Low', 'Medium', 'High', 'Highest']
+      });
+    }
+  }, []);
   
   const loadTickets = useCallback(async (currentFilters = filters) => {
     try {
@@ -1032,19 +1109,35 @@ export default function JiraManagerPro() {
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, []);  
   
   useEffect(() => {
     checkHealth();
-    loadTickets();
-  }, [checkHealth, loadTickets]);
-  
+    loadFilterOptions();
+    loadTickets(filters);
+  }, [checkHealth, loadFilterOptions, filters]);
+
+  const loadAnalytics = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:5000/api/analytics');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      setShowAnalytics(true);
+    } catch (err) {
+      console.error('Analytics fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCreateTicket = async (formData) => {
     setActionLoading(true);
     try {
       const result = await apiService.createTicket(formData);
       if (result.success) {
         await loadTickets();
+        await loadFilterOptions();
         return true;
       }
     } catch (err) {
@@ -1061,6 +1154,7 @@ export default function JiraManagerPro() {
       const result = await apiService.updateTicket(ticketKey, formData);
       if (result.success) {
         await loadTickets();
+        await loadFilterOptions();
         return true;
       }
     } catch (err) {
@@ -1104,10 +1198,9 @@ export default function JiraManagerPro() {
     }
   };
   
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = useCallback((newFilters) => {
     setFilters(newFilters);
-    loadTickets(newFilters);
-  };
+  }, []);
   
   const findTicketStatus = (ticketKey) => {
     for (const [status, ticketList] of Object.entries(tickets)) {
@@ -1147,59 +1240,12 @@ export default function JiraManagerPro() {
         return orderA - orderB;
       }
       
-      // Si même ordre, tri alphabétique
       return a.localeCompare(b);
     });
   };
   
   const statuses = getOrderedStatuses(Object.keys(tickets));
   const totalTickets = Object.values(tickets).flat().length;
-  
-  // Calculer les options de filtrage avec extraction améliorée des types
-  const uniqueAssignees = useMemo(() => {
-    const assignees = new Set();
-    Object.values(tickets).flat().forEach(ticket => {
-      const ticketInfo = parseTicketInfo(ticket);
-      if (ticketInfo && ticketInfo.assignee && ticketInfo.assignee !== 'Non assigné') {
-        assignees.add(ticketInfo.assignee);
-      }
-    });
-    return Array.from(assignees);
-  }, [tickets]);
-
-  const uniqueTypes = useMemo(() => {
-    const types = new Set();
-    Object.values(tickets).flat().forEach(ticket => {
-      const ticketInfo = parseTicketInfo(ticket);
-      if (ticketInfo && ticketInfo.issueType) {
-        types.add(ticketInfo.issueType);
-      }
-    });
-    return Array.from(types).sort();
-  }, [tickets]);
-
-  // Ajouter cette constante pour les priorités disponibles
-  const AVAILABLE_PRIORITIES = ['Low', 'Medium', 'High', 'Highest'];
-  // Mettre à jour la section de filtrage pour utiliser les priorités disponibles
-  const uniquePriorities = useMemo(() => {
-    const priorities = new Set();
-    Object.values(tickets).flat().forEach(ticket => {
-      const ticketInfo = parseTicketInfo(ticket);
-      if (ticketInfo && ticketInfo.priority) {
-        priorities.add(ticketInfo.priority);
-      }
-    });
-    
-    // S'assurer que toutes les priorités disponibles sont incluses
-    AVAILABLE_PRIORITIES.forEach(priority => {
-      priorities.add(priority);
-    });
-    
-    return Array.from(priorities).sort();
-  }, [tickets]);
-
-  const ticketTypes = uniqueTypes.length > 0 ? uniqueTypes : ['Task', 'Bug', 'Story', 'Epic'];
-  const allStatuses = statuses;
   
   return (
     <>
@@ -1937,6 +1983,12 @@ export default function JiraManagerPro() {
                 <Plus size={18} />
                 Nouveau ticket
               </button>
+              <button
+                onClick={() => window.location.href = '/analytics'}
+                className="jira-btn jira-btn-secondary"
+              >
+                📊 Analyses
+              </button>
             </div>
           </div>
         </header>
@@ -1957,27 +2009,36 @@ export default function JiraManagerPro() {
             </div>
           </div>
         )}
-        
+        {showAnalytics && (
+        <div className="mt-4">
+          <button onClick={() => setShowAnalytics(false)} className="jira-btn jira-btn-secondary">
+            Close Analytics
+          </button>
+          <AnalyticsDashboard />
+        </div>
+      )}
         {/* Filters */}
         <div className="jira-container">
           <div className="jira-card jira-mb-4">
             <div className="jira-card-body">
               <div className="jira-filters">
                 <div className="jira-filters-left">
+                  {/* Issue Type Filter */}
                   <div className="jira-filter-group">
-                    <Filter size={18} style={{color: '#64748b'}} />
+                    <Tag size={18} style={{color: '#64748b'}} />
                     <select
                       value={filters.type}
                       onChange={(e) => handleFilterChange({ ...filters, type: e.target.value })}
                       className="jira-form-select"
                     >
                       <option value="all">Tous les types</option>
-                      {ticketTypes.map(type => (
+                      {filterOptions.types.map(type => (
                         <option key={type} value={type}>{type}</option>
                       ))}
                     </select>
                   </div>
 
+                  {/* Priority Filter */}
                   <div className="jira-filter-group">
                     <AlertCircle size={18} style={{color: '#64748b'}} />
                     <select
@@ -1986,26 +2047,28 @@ export default function JiraManagerPro() {
                       className="jira-form-select"
                     >
                       <option value="all">Toutes les priorités</option>
-                      {AVAILABLE_PRIORITIES.map(priority => (
+                      {filterOptions.priorities.map(priority => (
                         <option key={priority} value={priority}>{priority}</option>
                       ))}
                     </select>
                   </div>
                   
+                  {/* Status Filter */}
                   <div className="jira-filter-group">
-                    <Tag size={18} style={{color: '#64748b'}} />
+                    <CheckCircle size={18} style={{color: '#64748b'}} />
                     <select
                       value={filters.status}
                       onChange={(e) => handleFilterChange({ ...filters, status: e.target.value })}
                       className="jira-form-select"
                     >
                       <option value="all">Tous les statuts</option>
-                      {allStatuses.map(status => (
+                      {filterOptions.statuses.map(status => (
                         <option key={status} value={status}>{status}</option>
                       ))}
                     </select>
                   </div>
                   
+                  {/* Assignee Filter - Normalisation complète */}
                   <div className="jira-filter-group">
                     <User size={18} style={{color: '#64748b'}} />
                     <select
@@ -2014,8 +2077,8 @@ export default function JiraManagerPro() {
                       className="jira-form-select"
                     >
                       <option value="all">Tous les assignés</option>
-                      <option value="unassigned">Non assignés</option>
-                      {uniqueAssignees.map(assignee => (
+                      <option value="Non assigné">Non assigné</option>
+                      {filterOptions.assignees.filter(assignee => assignee !== 'Non assigné').map(assignee => (
                         <option key={assignee} value={assignee}>{assignee}</option>
                       ))}
                     </select>
@@ -2132,7 +2195,9 @@ export default function JiraManagerPro() {
           onClose={() => closeModal('create')}
           onSubmit={handleCreateTicket}
           loading={actionLoading}
-          assignees={uniqueAssignees}
+          assignees={filterOptions.assignees}
+          types={filterOptions.types}
+          priorities={filterOptions.priorities}
         />
         
         <EditTicketModal
@@ -2141,7 +2206,9 @@ export default function JiraManagerPro() {
           onSubmit={handleEditTicket}
           loading={actionLoading}
           ticketKey={selectedTicket}
-          assignees={uniqueAssignees}
+          assignees={filterOptions.assignees}
+          types={filterOptions.types}
+          priorities={filterOptions.priorities}
         />
         
         <TransitionModal

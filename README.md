@@ -4,13 +4,20 @@ Jira Manager Pro est une application web full-stack conçue pour simplifier et o
 
 ---
 
-## 🚀 Fonctionnalités Clés
+## 🚀 Fonctionnalités Clés  
 
-* **Gestion des Tickets (CRUD) :** Créez, lisez, mettez à jour et supprimez des tickets avec une interface simplifiée.
-* **Recherche et Filtrage Avancé :** Filtrez les tickets en temps réel par assigné, statut, type et mot-clé pour une navigation efficace.
-* **Transitions de Statut :** Changez l'état d'un ticket via une modale interactive qui affiche uniquement les transitions possibles, simplifiant ainsi le workflow.
-* **Gestion des Erreurs :** Validation en temps réel, messages d'erreur contextuels et mécanismes de récupération en cas d'échec de l'API.
-* **Expérience Utilisateur Optimale :** Une interface rapide, réactive et intuitive pour une productivité accrue.
+* **Gestion des Tickets (CRUD) :** Créez, lisez, mettez à jour et supprimez des tickets avec une interface simplifiée.  
+* **Recherche et Filtrage Avancé :** Filtrez les tickets en temps réel par assigné, statut, type et mot-clé pour une navigation efficace.  
+* **Transitions de Statut :** Changez l'état d'un ticket via une modale interactive qui affiche uniquement les transitions possibles, simplifiant ainsi le workflow.  
+* **Gestion des Erreurs :** Validation en temps réel, messages d'erreur contextuels et mécanismes de récupération en cas d'échec de l'API.  
+* **Expérience Utilisateur Optimale :** Une interface rapide, réactive et intuitive pour une productivité accrue.  
+* **📊 Tableau de Bord Analytique :** Visualisez les métriques clés des tickets grâce à des **graphiques interactifs** et des **insights actionnables** :  
+  - Volume de tickets créés par semaine (tendance et pics d’activité).  
+  - Distribution par priorité (High, Medium, Low…).  
+  - Distribution par type (Bug, Task, Story…).  
+  - Répartition par assignation (charge de travail des membres).  
+  - Temps moyen de résolution des tickets.  
+  - Panneau d’**insights dynamiques** pour détecter tendances et points critiques.  
 
 ---
 
@@ -19,12 +26,14 @@ Jira Manager Pro est une application web full-stack conçue pour simplifier et o
 ### Frontend
 * **React.js :** Bibliothèque pour l'interface utilisateur. Utilisation intensive des Hooks (`useState`, `useEffect`, `useCallback`) pour une logique de composant performante.
 * **CSS :** Stylisation de l'application avec des styles modulaires pour une meilleure maintenabilité.
+* **Recharts & Visualisations personnalisées :** Création de graphiques (barres, donuts, KPI cards).  
 
 ### Backend (API REST)
 * **Python (avec Flask) :** Micro-framework pour le serveur de l'API.
 * **Flask-CORS :** Sécurisation des requêtes cross-origin du frontend.
 * **Flask-Limiter :** Protection de l'API contre les requêtes excessives.
 * **Requests :** Bibliothèque pour l'intégration sécurisée avec l'API REST de Jira.
+* **Endpoints Analytics :** Calcul et agrégation de métriques (tickets/semaine, distribution, temps de résolution).  
 
 ### Outils de Développement
 * **Git & GitHub :** Système de contrôle de version pour le travail collaboratif.
@@ -65,6 +74,7 @@ Jira Manager Pro est une application web full-stack conçue pour simplifier et o
 ---
 
 ## 🖼️ Aperçu de l'Application
+Veuillez trouver ci-jointes des captures d'écran de la page d'accueil du projet.
 
 <img width="1854" height="943" alt="interface pricipale" src="https://github.com/user-attachments/assets/032c50b8-d67c-472d-b38d-32d078d6bc00" />
 <img width="753" height="649" alt="création d'un ticket" src="https://github.com/user-attachments/assets/168c8488-d881-4f04-962e-747e9cf1b79b" />
@@ -73,7 +83,12 @@ Jira Manager Pro est une application web full-stack conçue pour simplifier et o
 <img width="753" height="316" alt="suppression d'un ticket" src="https://github.com/user-attachments/assets/758be5d8-e455-4177-b594-87adf6a58130" />
 <img width="1499" height="108" alt="filtrage" src="https://github.com/user-attachments/assets/e9bf5eaa-f5bd-4d3c-be3f-adc2740c197d" />
 
+Ci dessous, vous trouverez les vues d'ensembles du Tableau de Bord Analytique du Jira Manager Pro 
 
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
 ---
 
 

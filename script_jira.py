@@ -15,6 +15,8 @@ from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import logging
+from collections import defaultdict, Counter
+from datetime import datetime
 
 load_dotenv()
 
@@ -92,7 +94,10 @@ class JiraManager:
         self.logger.info("\n🔍 Retrieving tickets...")
         print("\n🔍 Retrieving tickets...")
         
-        params = {"jql": f"project={self.project_key} ORDER BY status ASC, created DESC"}
+        params = {
+            "jql": f"project = {self.project_key} ORDER BY status ASC, created DESC",
+            "fields": "summary,assignee,issuetype,priority,created,resolutiondate,status"
+        }
         response = self._make_request("GET", "search", params=params)
         
         if not response:
@@ -109,14 +114,13 @@ class JiraManager:
                     summary = issue["fields"]["summary"]
                     assignee = issue["fields"].get("assignee")
                     assignee_name = assignee["displayName"] if assignee else "Unassigned"
-                    issue_type = issue["fields"]["issuetype"]["name"]  # Récupérer le type
+                    issue_type = issue["fields"]["issuetype"]["name"]
                     priority = issue["fields"].get("priority")
                     priority_name = priority["name"] if priority else "None"
                     
                     if status not in tickets_by_status:
                         tickets_by_status[status] = []
                     
-                    # Format: "KEY: SUMMARY [ASSIGNEE] [TYPE] [PRIORITY]"
                     ticket_string = f"{key}: {summary} [{assignee_name}] [{issue_type}] [{priority_name}]"
                     tickets_by_status[status].append(ticket_string)
                 
@@ -239,90 +243,96 @@ class JiraManager:
         
         return False
 
-    def update_ticket(self, ticket_key: str, new_summary: Optional[str] = None, 
-                     new_description: Optional[str] = None, new_issue_type: Optional[str] = None,
-                     new_priority: Optional[str] = None, new_assignee: Optional[str] = None) -> bool:
-        """Update an existing ticket with optional issue type, priority and assignee."""
-        if not ticket_key.strip():
-            self.logger.error("❌ Ticket key cannot be empty")
-            print("❌ Ticket key cannot be empty")
-            return False
-
-        fields = {}
+    def update_ticket(self, ticket_key, new_summary=None, new_description=None, 
+                  new_issue_type=None, new_priority=None, new_assignee='no_change'):
+        """
+        Met à jour un ticket existant avec les nouvelles valeurs fournies.
         
-        if new_summary and new_summary.strip():
-            fields["summary"] = new_summary.strip()
+        Args:
+            ticket_key (str): Clé du ticket à mettre à jour
+            new_summary (str, optional): Nouveau résumé
+            new_description (str, optional): Nouvelle description  
+            new_issue_type (str, optional): Nouveau type de ticket
+            new_priority (str, optional): Nouvelle priorité
+            new_assignee (str/None, optional): Nouvel assigné ou 'no_change' si inchangé
+        
+        Returns:
+            bool: True si la mise à jour a réussi, False sinon
+        """
+        try:
+            update_fields = {}
             
-        if new_description and new_description.strip():
-            fields["description"] = {
-                "type": "doc",
-                "version": 1,
-                "content": [
-                    {
-                        "type": "paragraph",
-                        "content": [{"type": "text", "text": new_description.strip()}]
-                    }
-                ]
-            }
-
-        if new_issue_type and new_issue_type.strip():
-            available_issue_types = self.get_issue_types()
-            if new_issue_type not in available_issue_types:
-                self.logger.error(f"❌ Invalid issue type '{new_issue_type}'. Available types: {', '.join(available_issue_types)}")
-                print(f"❌ Invalid issue type '{new_issue_type}'. Available types: {', '.join(available_issue_types)}")
+            # Mise à jour du résumé
+            if new_summary:
+                update_fields['summary'] = new_summary
+                print(f"📝 Mise à jour résumé: {new_summary}")
+            
+            # Mise à jour de la description
+            if new_description:
+                # Format ADF pour Jira Cloud
+                update_fields['description'] = {
+                    "type": "doc",
+                    "version": 1,
+                    "content": [
+                        {
+                            "type": "paragraph",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": new_description
+                                }
+                            ]
+                        }
+                    ]
+                }
+                print(f"📋 Mise à jour description: {new_description[:50]}...")
+            
+            # Mise à jour du type de ticket
+            if new_issue_type:
+                update_fields['issuetype'] = {'name': new_issue_type}
+                print(f"🏷️ Mise à jour type: {new_issue_type}")
+            
+            # Mise à jour de la priorité
+            if new_priority:
+                update_fields['priority'] = {'name': new_priority}
+                print(f"⚡ Mise à jour priorité: {new_priority}")
+            
+            # CORRECTION : Mise à jour de l'assigné
+            if new_assignee != 'no_change':
+                if new_assignee is None:
+                    # Désassigner le ticket
+                    update_fields['assignee'] = None
+                    print(f"👤 Désassignation du ticket {ticket_key}")
+                else:
+                    # Assigner à un utilisateur spécifique
+                    update_fields['assignee'] = {'accountId': new_assignee}
+                    print(f"👤 Assignation à: {new_assignee}")
+            
+            if not update_fields:
+                print("⚠️ Aucun champ à mettre à jour")
                 return False
-            fields["issuetype"] = {"name": new_issue_type}
-
-        # Add priority if provided
-        if new_priority is not None:
-            if new_priority.strip():
-                fields["priority"] = {"name": new_priority.strip()}
-            else:
-                # Pour retirer la priorité, on peut essayer de la mettre à None
-                fields["priority"] = None
-
-        # Add assignee if provided
-        if new_assignee is not None:
-            if new_assignee.strip():
-                fields["assignee"] = {"accountId": new_assignee.strip()}
-            else:
-                # Pour désassigner, on met l'assignee à null
-                fields["assignee"] = None
-
-        if not fields:
-            self.logger.error("❌ No fields to update")
-            print("❌ No fields to update")
-            return False
-
-        payload = {"fields": fields}
-        response = self._make_request("PUT", f"issue/{ticket_key}", json=payload)
-        
-        if not response:
-            return False
             
-        if response.status_code == 204:
-            self.logger.info(f"✅ Ticket {ticket_key} updated successfully")
-            print(f"✅ Ticket {ticket_key} updated successfully")
-            return True
-        else:
-            self.logger.error(f"❌ Error updating ticket: {response.status_code} - {response.text}")
-            print(f"❌ Error updating ticket: {response.status_code}")
-            if response.status_code == 404:
-                self.logger.info(f"💡 Ticket {ticket_key} not found")
-                print(f"💡 Ticket {ticket_key} not found")
-            elif response.status_code == 400:
-                self.logger.info("💡 Check your input data")
-                print("💡 Check your input data")
-                try:
-                    error_data = response.json()
-                    if "errors" in error_data:
-                        for field, error in error_data["errors"].items():
-                            self.logger.info(f"💡 {field}: {error}")
-                            print(f"💡 {field}: {error}")
-                except json.JSONDecodeError:
-                    pass
-        
-        return False
+            # Effectuer la mise à jour
+            update_data = {'fields': update_fields}
+            
+            response = self._make_request('PUT', f'issue/{ticket_key}', json=update_data)
+            
+            if response and response.status_code == 204:
+                print(f"✅ Ticket {ticket_key} mis à jour avec succès")
+                return True
+            else:
+                status_code = response.status_code if response else 'N/A'
+                error_msg = response.text if response else 'Aucune réponse'
+                print(f"❌ Échec mise à jour ticket {ticket_key}")
+                print(f"   Status: {status_code}")
+                print(f"   Erreur: {error_msg}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Erreur lors de la mise à jour du ticket {ticket_key}: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return False
 
     def get_available_transitions(self, ticket_key: str) -> Dict[str, str]:
         """Get available transitions for a ticket."""
