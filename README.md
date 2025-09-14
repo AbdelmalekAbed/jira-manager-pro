@@ -85,10 +85,11 @@ Veuillez trouver ci-jointes des captures d'écran de la page d'accueil du projet
 
 Ci dessous, vous trouverez les vues d'ensembles du Tableau de Bord Analytique du Jira Manager Pro 
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
+<img width="1919" height="942" alt="Screenshot from 2025-09-14 10-29-45" src="https://github.com/user-attachments/assets/9bcff9c7-f814-4fc7-a5db-01be81a85458" />
+<img width="1507" height="923" alt="Screenshot from 2025-09-14 10-38-50" src="https://github.com/user-attachments/assets/ef5428bc-e988-483f-8dd6-536813d6ef5e" />
+<img width="1778" height="939" alt="Screenshot from 2025-09-14 11-06-28" src="https://github.com/user-attachments/assets/fb00d4f6-7912-433f-ac40-0d2cb5b622c4" />
+
+
 ---
 
 
