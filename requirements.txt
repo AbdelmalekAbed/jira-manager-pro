@@ -2,12 +2,12 @@ Flask
 requests
 python-dotenv
 requests==2.32.4
-Werkzeug==3.0.6
+Werkzeug==3.1.4
 # Flask et extensions
 Flask==2.3.3
 Flask-CORS==6.0.0
 Flask-Limiter==3.5.0
-Werkzeug==3.0.6
+Werkzeug==3.1.4
 
 # Environnement et configuration
 python-dotenv==1.0.0
